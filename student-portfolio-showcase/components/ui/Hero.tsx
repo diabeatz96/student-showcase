@@ -54,7 +54,7 @@ export default function Hero() {
       const particles = particlesRef.current.querySelectorAll('.particle');
       animate(Array.from(particles), {
         translateY: [0, -20, 0],
-        translateX: (el, i) => [0, (i % 2 === 0 ? 10 : -10), 0],
+        translateX: (_el: Element, i: number) => [0, (i % 2 === 0 ? 10 : -10), 0],
         opacity: [0.3, 0.6, 0.3],
         duration: 3000,
         delay: stagger(200),
