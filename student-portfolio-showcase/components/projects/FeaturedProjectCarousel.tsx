@@ -33,7 +33,6 @@ interface FeaturedProjectCarouselProps {
 }
 
 export default function FeaturedProjectCarousel({ projects }: FeaturedProjectCarouselProps) {
-  const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -100,7 +99,6 @@ export default function FeaturedProjectCarousel({ projects }: FeaturedProjectCar
               dynamicBullets: true,
             }}
             navigation={true}
-            onSwiper={setSwiper}
             onSlideChange={handleSlideChange}
             className="featured-carousel"
           >
@@ -219,7 +217,6 @@ function ProjectBrowserPreview({
   }, [isActive, project.id, project.canEmbed, project.demoUrl, iframeLoading]);
 
   const shouldShowIframe = project.canEmbed && project.demoUrl && !iframeError;
-  const shouldShowScreenshot = !shouldShowIframe || iframeError;
 
   return (
     <div

@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -25,28 +27,28 @@ export default function Footer() {
             <h3 className="text-white text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <a
+                <Link
                   href="/"
                   className="text-sm hover:text-primary-400 transition-colors"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/students"
                   className="text-sm hover:text-primary-400 transition-colors"
                 >
                   All Students
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/about"
                   className="text-sm hover:text-primary-400 transition-colors"
                 >
                   About
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

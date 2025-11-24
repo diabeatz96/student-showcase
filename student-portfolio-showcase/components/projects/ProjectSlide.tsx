@@ -14,7 +14,6 @@ export default function ProjectSlide({ project }: ProjectSlideProps) {
   const [imageError, setImageError] = useState(false);
 
   const shouldShowIframe = project.canEmbed && project.demoUrl && !iframeError;
-  const shouldShowScreenshot = !shouldShowIframe || iframeError;
 
   return (
     <div className="p-6">

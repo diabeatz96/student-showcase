@@ -20,7 +20,8 @@ export default function ScrollReveal({
   const hasAnimated = useRef(false);
 
   useEffect(() => {
-    if (!elementRef.current) return;
+    const element = elementRef.current;
+    if (!element) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -28,7 +29,7 @@ export default function ScrollReveal({
           if (entry.isIntersecting && !hasAnimated.current) {
             hasAnimated.current = true;
 
-            animate(elementRef.current, {
+            animate(element, {
               opacity: [0, 1],
               translateY: [50, 0],
               duration: 800,
@@ -46,12 +47,10 @@ export default function ScrollReveal({
       }
     );
 
-    observer.observe(elementRef.current);
+    observer.observe(element);
 
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
-      }
+      observer.unobserve(element);
     };
   }, [delay, threshold]);
 
