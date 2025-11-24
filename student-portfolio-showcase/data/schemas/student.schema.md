@@ -1,6 +1,6 @@
 # Student Data Schema Documentation
 
-This document describes the JSON schema for student portfolio data files.
+This document describes the JSON schema for student portfolio data files. Thanks
 
 ## File Location
 

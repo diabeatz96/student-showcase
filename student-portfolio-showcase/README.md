@@ -1,5 +1,7 @@
 # Student Portfolio Showcase
 
+UPDATE 2025.X 
+
 A modern, accessible, and animated Next.js 15 application for showcasing student web development projects. Built with TypeScript, Tailwind CSS, and featuring smooth animations powered by anime.js.
 
 ## 🎯 Project Overview
