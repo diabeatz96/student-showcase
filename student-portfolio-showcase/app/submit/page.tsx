@@ -1,41 +1,41 @@
+"use client"; // Enable client-side rendering
 import {useState} from 'react';
 export default function Page() {
     const [submit, setSubmit] = useState(false); // State to track form submission
+    // Handle what information saves and downloads as JSON file
+const handlesubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();          // STOP FORM FROM REFRESHING
 
-    const handlesubmit = () => {
-        if (submit === true) return; // Prevent multiple submissions
-        setSubmit(true); // Mark as submitted
+    if (submit === true) return; // Prevent multiple submissions
+    setSubmit(true); // Mark as submitted
 
-        
-        const form = document.getElementById('portfolioSubmissionForm') as HTMLFormElement; // Get the form element
-        if (!form) return; // If form not found, exit
+    const form = event.currentTarget; // Get the form element
+    const formData = new FormData(form); // Create FormData object from the form
 
-        const formData = new FormData(form); // Create FormData object from the form
+    const data: { [key: string]: string | File } = {}; // Initialize an empty object to hold form data, the key is string and value will be a string or File
+    formData.forEach((value, key) => { // Iterate over each form entry
+        data[key] = value;
+    });
 
-        // Convert FormData to a regular object
-        const data: {[key: string]: string | File} = {};
-        formData.forEach((value, key) => {
-            data[key] = value;
-        });
+    const jsonData = JSON.stringify(data, null, 2); // Convert form data to JSON string with indentation
 
-        // Convert to JSON
-        const jsonData = JSON.stringify(data, null, 2);
+    const downloadJson = formData.get("downloadJson"); // Check if the user wants to download the JSON file
 
-        
-        const downloadJson = formData.get('downloadJson'); // Check if user wants to download JSON
-        if (downloadJson) { // If checkbox is checked, trigger download
-            const blob = new Blob([jsonData], {type: 'application/json'}); // Create a Blob from JSON data
-            const url = URL.createObjectURL(blob); // Create a URL for the Blob
-            const a = document.createElement('a'); // Create a temporary anchor element
-            a.href = url; // Set href to Blob URL
-            a.download = 'portfolio_submission.json'; // Set the download attribute with a filename
-            a.click(); // Programmatically click the anchor to trigger download
-            URL.revokeObjectURL(url); // Clean up the URL object
-        }
+    if (downloadJson) { // If downloadJson is true, create and download the JSON file
+        const blob = new Blob([jsonData], { type: "application/json" }); // Create a Blob from the JSON string
+        const url = URL.createObjectURL(blob); // Create a URL for the Blob
 
-        // Here you can handle the form submission, e.g., send data to a server
-        console.log('Form submitted:', data);
+        const a = document.createElement("a"); // Create a temporary anchor element
+        a.href = url; // Set the href to the Blob URL
+        a.download = "portfolio_submission.json"; // Set the download attribute with the filename
+        a.click(); // Programmatically click the anchor to trigger the download
+
+        URL.revokeObjectURL(url); // Release the Blob URL
     }
+
+    console.log("Form submitted:", data);
+};
+
     return (
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
@@ -47,15 +47,16 @@ export default function Page() {
             </p>
         </div>
 
-            {/* Portfolio Submission Form */}
+            
             <section>
                 {/* Formspree integration for handling form submissions */}
             <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow">
                 
-                <form id="portfolioSubmissionForm" className="space-y-6">
-
+                <form id="portfolioSubmissionForm" onSubmit={handlesubmit} className="space-y-6">
+                <input type="hidden" name="downloadJson" value="true" />
                 {/* Full Name Field ✅*/}
                 <div>
+                    {/* Portfolio Submission Form */}
                     <label
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -279,29 +280,14 @@ export default function Page() {
                 {/* Submit Button ✅*/}
                 <div>
                     <button
-                    type="submit"
                     className="w-full bg-blue-600 text-white font-medium py-3 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                     Submit Portfolio
                     </button>
                 </div>
 
-                {/* Download JSON as pressing Submit ✅*/}
-                <div>
-                    <label
-                    htmlFor="downloadJson"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                    >
-                    Download Submission as JSON
-                    </label>
-                    <input
-                    type="checkbox"
-                    id="downloadJson"
-                    name="downloadJson"
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                    />
-                </div>
 
+            
                 </form>
 
                 
