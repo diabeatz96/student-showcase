@@ -88,7 +88,9 @@ export default function Timeline({ events }: TimelineProps) {
 
               {/* Card */}
               <div
-                ref={(el) => (cardsRef.current[index] = el)}
+                ref={(el) => {
+                  cardsRef.current[index] = el;
+                }}
                 className="group relative bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-5 border border-gray-100 hover:border-primary-300 opacity-0"
                 style={{ transformStyle: 'preserve-3d' }}
               >
