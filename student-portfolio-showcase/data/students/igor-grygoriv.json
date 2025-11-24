@@ -1,0 +1,100 @@
+{
+  "id": "igor-grygoriv",
+  "firstName": "Igor",
+  "lastName": "Grygoriv",
+  "email": "igorgrygoriv1@gmail.com",
+  "photo": "images/students/igor-grygoriv.jpg",
+  "major": "Computer Science",
+  "graduationYear": 2025,
+  "bio": "Full-stack developer specializing in Python and Django web applications. Currently working as a Software Engineer at Allied Health Group, with experience building robust back-end systems and efficient database management solutions.",
+  "personalStatement": "Passionate about developing scalable full-stack web applications that solve real-world problems. I leverage modern frameworks like Django to create efficient, user-friendly solutions.",
+  "careerGoals": "Seeking full-stack software engineering positions where I can apply my expertise in Python, Django, and database management to build impactful web applications and continue growing as a developer.",
+  "skills": [
+    "Full-Stack Development",
+    "Python",
+    "Django",
+    "Django ORM",
+    "Database Management",
+    "Web Development",
+    "Back-end Development",
+    "Front-end Development"
+  ],
+  "contact": {
+    "linkedin": "https://www.linkedin.com/in/igorgrygoriv",
+    "github": "https://github.com/IgorGrygoriv",
+    "website": "https://igorgrygoriv.netlify.app/"
+  },
+  "semesters": [
+    {
+      "name": "Fall 2024",
+      "startDate": "2024-09-01T00:00:00Z",
+      "endDate": "2024-12-15T00:00:00Z",
+      "projects": [
+        {
+          "id": "portfolio-website",
+          "title": "Personal Portfolio Website",
+          "description": "Modern, responsive portfolio website showcasing projects, skills, and professional experience. Built with clean design principles and optimized for performance across all devices.",
+          "technologies": [
+            "HTML5",
+            "CSS3",
+            "JavaScript",
+            "Responsive Design",
+            "Netlify"
+          ],
+          "featured": true,
+          "demoUrl": "https://igorgrygoriv.netlify.app/",
+          "repoUrl": "https://github.com/IgorGrygoriv/basicPortfolio",
+          "screenshot": "images/projects/igor-portfolio.jpg",
+          "semester": "Fall 2024",
+          "completedDate": "2024-11-20T00:00:00Z",
+          "canEmbed": true
+        },
+        {
+          "id": "pomodoro-timer",
+          "title": "Pomodoro Timer Web Application",
+          "description": "Interactive Pomodoro Timer application designed for productivity and time management. Features customizable work/break intervals, audio notifications, and a clean, intuitive interface built with modern web technologies.",
+          "technologies": [
+            "HTML5",
+            "CSS3",
+            "JavaScript",
+            "Responsive Design",
+            "Netlify"
+          ],
+          "featured": true,
+          "demoUrl": "https://pomodorotimercsc436.netlify.app/",
+          "repoUrl": "https://github.com/IgorGrygoriv/pomodorotimer",
+          "screenshot": "images/projects/igor-pomodoro.jpg",
+          "semester": "Fall 2024",
+          "completedDate": "2024-11-20T00:00:00Z",
+          "canEmbed": true
+        }
+      ]
+    },
+    {
+      "name": "Summer 2024",
+      "startDate": "2024-07-01T00:00:00Z",
+      "endDate": "2024-08-31T00:00:00Z",
+      "projects": [
+        {
+          "id": "pye-education-platform",
+          "title": "PYE Education Center Web Platform",
+          "description": "Full-stack educational web application developed during internship at PYE Education Center. Built with Django framework, featuring robust back-end functionality, efficient database management using Django ORM, and responsive front-end design.",
+          "technologies": [
+            "Python",
+            "Django",
+            "Django ORM",
+            "PostgreSQL",
+            "HTML5",
+            "CSS3",
+            "JavaScript"
+          ],
+          "featured": false,
+          "screenshot": "images/projects/pye-education.jpg",
+          "semester": "Summer 2024",
+          "completedDate": "2024-08-15T00:00:00Z",
+          "canEmbed": false
+        }
+      ]
+    }
+  ]
+}

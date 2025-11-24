@@ -1,0 +1,149 @@
+{
+  "id": "alan-mackiewicz",
+  "firstName": "Alan",
+  "lastName": "Mackiewicz",
+  "email": "alanmackiewicz@yahoo.com",
+  "photo": "images/students/alan-mackiewicz.jpg",
+  "bio": "Senior Computer Science student at CSI with extensive experience in software engineering internships. Built real-time distributed data pipelines, led teams on AI-driven projects, and developed full-stack applications. Passionate about building impactful solutions and exploring new technologies.",
+  "personalStatement": "Throughout my journey at CSI, I've had the privilege of working with cutting-edge technologies like Elixir, Apache Kafka, and GraphQL while building systems that process billions of dollars in transactions. From leading engineering teams to developing AI-driven solutions, I'm passionate about creating scalable systems that make a real impact.",
+  "major": "Computer Science",
+  "graduationYear": 2025,
+  "contact": {
+    "linkedin": "https://www.linkedin.com/in/alanmackiewicz",
+    "github": "https://github.com/alanmackiewicz"
+  },
+  "skills": [
+    "Python",
+    "Elixir",
+    "Apache Kafka",
+    "Apache Flink",
+    "GraphQL",
+    "React",
+    "Node.js",
+    "Express",
+    "MongoDB",
+    "AWS",
+    "PostgreSQL",
+    "SQL",
+    "RESTful APIs",
+    "Microservices",
+    "Data Pipelines",
+    "Machine Learning",
+    "LLMs",
+    "OCR",
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "careerGoals": "Seeking software engineering position working on distributed systems, data engineering, or AI-driven applications where I can leverage my experience in building scalable backend architectures.",
+  "semesters": [
+    {
+      "name": "Fall 2024",
+      "startDate": "2024-09-01T00:00:00Z",
+      "endDate": "2024-12-15T00:00:00Z",
+      "projects": [
+        {
+          "id": "card-simulation",
+          "title": "Interactive Card Simulation Game",
+          "description": "Web-based card game simulation featuring dynamic gameplay mechanics, responsive design, and interactive UI elements. Built with modern JavaScript and deployed on Vercel for seamless performance and user experience.",
+          "technologies": [
+            "JavaScript",
+            "HTML5",
+            "CSS3",
+            "Vercel"
+          ],
+          "featured": true,
+          "demoUrl": "https://card-sim.vercel.app/",
+          "repoUrl": "https://github.com/AlanM03/CardSimulation",
+          "screenshot": "images/projects/card-simulation.jpg",
+          "semester": "Fall 2024",
+          "completedDate": "2024-11-20T00:00:00Z",
+          "canEmbed": true
+        },
+        {
+          "id": "theramotive-insurance",
+          "title": "TheraMotive Insurance Intake System",
+          "description": "End-to-end insurance intake system with AI-driven features for text summarization and OCR. Led a team of 8 interns to build and deploy the system on AWS with automated email notifications and PPI redaction for secure healthcare data processing.",
+          "technologies": [
+            "React",
+            "Node.js",
+            "AWS",
+            "LLMs",
+            "OCR",
+            "PostgreSQL"
+          ],
+          "featured": true,
+          "screenshot": "images/projects/theramotive-insurance.jpg",
+          "semester": "Fall 2024",
+          "completedDate": "2024-08-15T00:00:00Z",
+          "canEmbed": false
+        },
+        {
+          "id": "24mobler-inventory",
+          "title": "24möbler Inventory Management System",
+          "description": "Backend server for real-time inventory management and order processing. Directed infrastructure decisions focusing on system scalability, deployment, and security for high-traffic e-commerce operations with automated stock tracking.",
+          "technologies": [
+            "Node.js",
+            "Express",
+            "MongoDB",
+            "RESTful APIs"
+          ],
+          "featured": true,
+          "screenshot": "images/projects/24mobler-inventory.jpg",
+          "semester": "Fall 2024",
+          "completedDate": "2023-12-15T00:00:00Z",
+          "canEmbed": false
+        }
+      ]
+    },
+    {
+      "name": "Spring 2024",
+      "startDate": "2024-01-15T00:00:00Z",
+      "endDate": "2024-05-15T00:00:00Z",
+      "projects": [
+        {
+          "id": "cuny-tech-prep-ds",
+          "title": "CUNY Tech Prep Data Science Projects",
+          "description": "Technical projects developed during prestigious data science fellowship using Python, Jupyter Notebooks, Pandas, NumPy, and Scikit-learn. Focused on exploratory data analysis, feature engineering, and big data handling with machine learning model development.",
+          "technologies": [
+            "Python",
+            "Jupyter",
+            "Pandas",
+            "NumPy",
+            "Scikit-learn",
+            "SQL"
+          ],
+          "featured": false,
+          "screenshot": "images/projects/data-science-portfolio.jpg",
+          "semester": "Spring 2024",
+          "completedDate": "2024-05-15T00:00:00Z",
+          "canEmbed": false
+        }
+      ]
+    },
+    {
+      "name": "Spring 2023",
+      "startDate": "2023-01-15T00:00:00Z",
+      "endDate": "2023-05-15T00:00:00Z",
+      "projects": [
+        {
+          "id": "studentswhocode-platform",
+          "title": "StudentsWhoCode MERN Platform",
+          "description": "Full-stack MERN application developed as part of a 6-person engineering team. Built responsive React UIs and RESTful APIs with Node.js/Express to manage and display MongoDB data with real-time updates and user authentication features.",
+          "technologies": [
+            "MongoDB",
+            "Express",
+            "React",
+            "Node.js",
+            "RESTful APIs"
+          ],
+          "featured": false,
+          "screenshot": "images/projects/studentswhocode.jpg",
+          "semester": "Spring 2023",
+          "completedDate": "2023-05-15T00:00:00Z",
+          "canEmbed": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad-chat-app-01.png" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16a34a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#grad-chat-app-01.png)"/>
+  <rect x="50" y="50" width="1100" height="700" fill="white" opacity="0.1" rx="10"/>
+  <text x="600" y="380" font-family="Arial, sans-serif" font-size="56" font-weight="bold" fill="white" text-anchor="middle">Chat Application</text>
+  <text x="600" y="450" font-family="Arial, sans-serif" font-size="28" fill="white" text-anchor="middle" opacity="0.9">Project Screenshot</text>
+  <circle cx="200" cy="150" r="40" fill="white" opacity="0.2"/>
+  <circle cx="1000" cy="650" r="60" fill="white" opacity="0.15"/>
+  <rect x="100" y="550" width="250" height="40" fill="white" opacity="0.3" rx="5"/>
+  <rect x="100" y="610" width="200" height="40" fill="white" opacity="0.3" rx="5"/>
+  <rect x="850" y="550" width="250" height="40" fill="white" opacity="0.3" rx="5"/>
+  <rect x="850" y="610" width="220" height="40" fill="white" opacity="0.3" rx="5"/>
+  <circle cx="950" cy="200" r="30" fill="white" opacity="0.2"/>
+  <circle cx="300" cy="680" r="50" fill="white" opacity="0.15"/>
+</svg>

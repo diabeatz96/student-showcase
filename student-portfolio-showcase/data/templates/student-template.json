@@ -1,0 +1,98 @@
+{
+  "__INSTRUCTIONS__": "This is a template for creating new student profiles. Remove this instruction field before using.",
+  "id": "student-name",
+  "__id_note__": "ID must be lowercase with hyphens (e.g., john-doe). This will be used in the URL.",
+
+  "firstName": "First",
+  "lastName": "Last",
+  "email": "student@university.edu",
+  "__email_note__": "Must be a valid email address",
+
+  "photo": "images/students/student-name.jpg",
+  "__photo_note__": "Path to student photo. Image should be at least 400x400px",
+
+  "major": "Computer Science",
+  "__major_note__": "Optional field",
+
+  "graduationYear": 2025,
+  "__graduationYear_note__": "Optional field. Must be a number",
+
+  "bio": "Write a compelling bio here (50-500 characters). This is a required field that describes the student's background, interests, and skills. Make it engaging and informative.",
+  "__bio_note__": "Required: 50-500 characters",
+
+  "personalStatement": "Optional longer statement about your journey, goals, and aspirations (up to 1000 characters). This appears prominently on your profile page.",
+  "__personalStatement_note__": "Optional: up to 1000 characters",
+
+  "contact": {
+    "website": "https://yourwebsite.com",
+    "github": "https://github.com/yourusername",
+    "linkedin": "https://linkedin.com/in/yourusername",
+    "twitter": "https://twitter.com/yourusername"
+  },
+  "__contact_note__": "All contact fields are optional but must be valid URLs if provided",
+
+  "skills": [
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Node.js"
+  ],
+  "__skills_note__": "Required: at least one skill. Add more as needed",
+
+  "careerGoals": "Brief statement about your career goals (up to 300 characters)",
+  "__careerGoals_note__": "Optional: up to 300 characters",
+
+  "semesters": [
+    {
+      "name": "Fall 2024",
+      "__name_note__": "Required: Semester name",
+
+      "startDate": "2024-09-01T00:00:00Z",
+      "endDate": "2024-12-15T00:00:00Z",
+      "__dates_note__": "Dates must be in ISO 8601 format. endDate is optional",
+
+      "projects": [
+        {
+          "id": "project-name",
+          "__project_id_note__": "Must be lowercase with hyphens",
+
+          "title": "Your Project Title Here",
+          "__title_note__": "Required: 3-100 characters",
+
+          "description": "Detailed project description explaining what it does, the problem it solves, and key features. Must be at least 50 characters and no more than 500 characters.",
+          "__description_note__": "Required: 50-500 characters",
+
+          "technologies": [
+            "React",
+            "Node.js",
+            "MongoDB"
+          ],
+          "__technologies_note__": "Required: at least one technology",
+
+          "demoUrl": "https://your-demo.vercel.app",
+          "__demoUrl_note__": "Optional: Must be valid URL if provided",
+
+          "repoUrl": "https://github.com/yourusername/project",
+          "__repoUrl_note__": "Optional: Must be valid URL if provided",
+
+          "screenshot": "images/projects/project-name.png",
+          "__screenshot_note__": "Required: Path to project screenshot",
+
+          "semester": "Fall 2024",
+          "__semester_note__": "Required: Should match parent semester name",
+
+          "completedDate": "2024-11-15T00:00:00Z",
+          "__completedDate_note__": "Optional: ISO 8601 format",
+
+          "featured": true,
+          "__featured_note__": "Optional: boolean, defaults to false. Featured projects appear on homepage",
+
+          "canEmbed": true,
+          "__canEmbed_note__": "Optional: boolean, defaults to true. If true and demoUrl provided, shows iframe preview"
+        }
+      ],
+      "__projects_note__": "Required: Each semester must have 1-6 projects"
+    }
+  ],
+  "__semesters_note__": "Required: at least one semester"
+}
