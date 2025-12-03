@@ -78,6 +78,12 @@ export default function Header() {
             >
               About
             </Link>
+            <Link
+              href="/submit"
+              className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+            >
+              Submit Project
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -154,6 +160,14 @@ export default function Header() {
               >
                 About
               </Link>
+              <Link
+                href="/submit"
+                className="text-gray-700 hover:text-primary-600 font-medium transition-colors px-2 py-1"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Submit Project
+              </Link>
+              
             </div>
           </div>
         )}
