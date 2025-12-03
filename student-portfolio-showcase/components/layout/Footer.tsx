@@ -50,6 +50,14 @@ export default function Footer() {
                   About
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/submit"
+                  className="text-sm hover:text-primary-400 transition-colors"
+                >
+                  Submit Project
+                </Link>
+              </li>
             </ul>
           </div>
 
