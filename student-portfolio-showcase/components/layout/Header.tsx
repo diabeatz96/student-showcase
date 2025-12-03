@@ -67,6 +67,12 @@ export default function Header() {
               All Students
             </Link>
             <Link
+              href="/contact"
+              className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+            >
+              Contact
+            </Link>
+            <Link
               href="/about"
               className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
             >
@@ -133,6 +139,13 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 All Students
+              </Link>
+              <Link
+                href="/contact"
+                className="text-gray-700 hover:text-primary-600 font-medium transition-colors px-2 py-1"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact
               </Link>
               <Link
                 href="/about"
