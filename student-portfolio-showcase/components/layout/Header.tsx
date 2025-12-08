@@ -38,7 +38,8 @@ export default function Header() {
       animate(Array.from(links), {
         opacity: [0, 1],
         translateY: [-10, 0],
-        delay: (_el: HTMLElement, i: number) => 100 + i * 50,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        delay: (_el: any, i: number) => 100 + i * 50,
         duration: 400,
         ease: 'out-cubic',
       });

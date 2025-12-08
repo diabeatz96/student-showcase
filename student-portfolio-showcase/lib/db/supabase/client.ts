@@ -1,10 +1,11 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from './database.types';
 
 // Supabase client singleton
-let supabaseClient: ReturnType<typeof createClient> | null = null;
-let supabaseAdminClient: ReturnType<typeof createClient> | null = null;
+let supabaseClient: SupabaseClient<Database> | null = null;
+let supabaseAdminClient: SupabaseClient<Database> | null = null;
 
-export function getSupabaseClient() {
+export function getSupabaseClient(): SupabaseClient<Database> {
   if (!supabaseClient) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -13,13 +14,13 @@ export function getSupabaseClient() {
       throw new Error('Missing Supabase environment variables');
     }
 
-    supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+    supabaseClient = createClient<Database>(supabaseUrl, supabaseAnonKey);
   }
 
   return supabaseClient;
 }
 
-export function getSupabaseAdminClient() {
+export function getSupabaseAdminClient(): SupabaseClient<Database> {
   if (!supabaseAdminClient) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -28,7 +29,7 @@ export function getSupabaseAdminClient() {
       throw new Error('Missing Supabase admin environment variables');
     }
 
-    supabaseAdminClient = createClient(supabaseUrl, supabaseServiceKey, {
+    supabaseAdminClient = createClient<Database>(supabaseUrl, supabaseServiceKey, {
       auth: {
         autoRefreshToken: false,
         persistSession: false,

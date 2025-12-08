@@ -16,6 +16,36 @@ import { SubmissionStatus } from '../types';
 
 const TABLE_NAME = 'submissions';
 
+// Helper to convert camelCase to snake_case for database insert/update
+function toDbRecord(submission: Partial<Submission>) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const record: any = {};
+  if (submission.firstName !== undefined) record.first_name = submission.firstName;
+  if (submission.lastName !== undefined) record.last_name = submission.lastName;
+  if (submission.email !== undefined) record.email = submission.email;
+  if (submission.bio !== undefined) record.bio = submission.bio;
+  if (submission.personalStatement !== undefined) record.personal_statement = submission.personalStatement;
+  if (submission.skills !== undefined) record.skills = submission.skills;
+  if (submission.careerGoals !== undefined) record.career_goals = submission.careerGoals;
+  if (submission.major !== undefined) record.major = submission.major;
+  if (submission.graduationYear !== undefined) record.graduation_year = submission.graduationYear;
+  if (submission.website !== undefined) record.website = submission.website;
+  if (submission.github !== undefined) record.github = submission.github;
+  if (submission.linkedin !== undefined) record.linkedin = submission.linkedin;
+  if (submission.twitter !== undefined) record.twitter = submission.twitter;
+  if (submission.photoData !== undefined) record.photo_data = submission.photoData;
+  if (submission.photoUrl !== undefined) record.photo_url = submission.photoUrl;
+  if (submission.projects !== undefined) record.projects = submission.projects;
+  if (submission.status !== undefined) record.status = submission.status;
+  if (submission.submittedAt !== undefined) record.submitted_at = submission.submittedAt;
+  if (submission.reviewedAt !== undefined) record.reviewed_at = submission.reviewedAt;
+  if (submission.reviewedBy !== undefined) record.reviewed_by = submission.reviewedBy;
+  if (submission.reviewNotes !== undefined) record.review_notes = submission.reviewNotes;
+  if (submission.prUrl !== undefined) record.pr_url = submission.prUrl;
+  if (submission.prNumber !== undefined) record.pr_number = submission.prNumber;
+  return record;
+}
+
 export class SupabaseSubmissionRepository implements ISubmissionRepository {
   private get client() {
     return getSupabaseAdminClient();
@@ -23,10 +53,11 @@ export class SupabaseSubmissionRepository implements ISubmissionRepository {
 
   async create(submission: Omit<Submission, 'id'>): Promise<DbResponse<SubmissionRecord>> {
     try {
-      const { data, error } = await this.client
-        .from(TABLE_NAME)
+      const dbRecord = toDbRecord(submission);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (this.client.from(TABLE_NAME) as any)
         .insert({
-          ...submission,
+          ...dbRecord,
           status: submission.status || SubmissionStatus.PENDING,
           submitted_at: new Date().toISOString(),
         })
@@ -113,10 +144,11 @@ export class SupabaseSubmissionRepository implements ISubmissionRepository {
 
   async update(id: string, updateData: Partial<Submission>): Promise<DbResponse<SubmissionRecord>> {
     try {
-      const { data, error } = await this.client
-        .from(TABLE_NAME)
+      const dbRecord = toDbRecord(updateData);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (this.client.from(TABLE_NAME) as any)
         .update({
-          ...updateData,
+          ...dbRecord,
           updated_at: new Date().toISOString(),
         })
         .eq('id', id)
@@ -137,8 +169,8 @@ export class SupabaseSubmissionRepository implements ISubmissionRepository {
     reviewData?: { reviewedBy?: string; reviewNotes?: string }
   ): Promise<DbResponse<SubmissionRecord>> {
     try {
-      const { data, error } = await this.client
-        .from(TABLE_NAME)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (this.client.from(TABLE_NAME) as any)
         .update({
           status,
           reviewed_at: new Date().toISOString(),
