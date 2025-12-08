@@ -101,29 +101,29 @@ export default function Page() {
     setAddProject((prev) => prev + 1);
   };
 
-  // Handle what information saves and downloads as JSON file
-const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  // Handle what information saves and submits to backend
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // STOP FORM FROM REFRESHING
 
     // PREVENT DOUBLE SUBMISSIONS (user spamming the button)
     if (submit) return;
     setSubmit(true); // Mark as submitted
+    setSubmitError(null);
 
     const form = event.currentTarget;
     const formData = new FormData(form);
 
     // ---------------------------------------------
     // HELPER: GET SINGLE STRING FIELD
-    // - Safely reads from FormData
-    // - Returns "" if the field is missing or empty
     // ---------------------------------------------
     const getString = (name: string): string =>
       (formData.get(name)?.toString().trim()) || "";
 
     // ---------------------------------------------
     // HELPER: GET ARRAY FROM MULTI-VALUE FIELD
-    // - Used for checkbox groups like "skills" or "technologiesUsed-1"
-    // - Uses getAll so every checked value is included
     // ---------------------------------------------
     const getCsvArray = (name: string): string[] =>
       formData
@@ -132,170 +132,99 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         .filter(Boolean);
 
     // ---------------------------------------------
-    // HELPER: SLUGIFY
-    // - Turns a string like "Card Simulation Game!"
-    //   into "card-simulation-game"
-    // - Used for stable IDs
-    // ---------------------------------------------
-    const slugify = (value: string): string =>
-      value
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-") // Replace non-alphanumeric characters with hyphens
-        .replace(/(^-|-$)+/g, ""); // Remove leading and trailing hyphens
-
-    // ---------------------------------------------
     // HELPER: DATE -> ISO STRING
-    // - Takes "YYYY-MM-DD" and returns "YYYY-MM-DDT00:00:00Z"
-    // - Matches the format used in the Alan example JSON
     // ---------------------------------------------
     const toIsoDate = (d: string): string => (d ? `${d}T00:00:00Z` : "");
 
     // ============================================================
     // 1) BUILD TOP-LEVEL STUDENT FIELDS
     // ============================================================
-
-    // FULL NAME -> firstName + lastName
     const fullName = getString("fullName");
     const [firstNameRaw, ...restName] = fullName.split(" ");
     const firstName = firstNameRaw || "";
     const lastName = restName.join(" ");
 
-    // GENERATE ID (e.g., "justin-burks")
-    const generatedId = slugify(fullName || "student");
-    
-
     // ============================================================
-    // 2) BUILD SEMESTERS + PROJECTS (FOR *ALL* PROJECT SLOTS)
+    // 2) BUILD PROJECTS ARRAY
     // ============================================================
-
-    // Types for clarity (not required, but nice for TS/hover info)
-    type Project = {
-      id: string;
+    type ProjectSubmission = {
       title: string;
       description: string;
       technologies: string[];
-      featured: boolean;
       demoUrl: string;
       repoUrl: string;
-      screenshot: string;
+      screenshotUrl: string;
       semester: string;
       completedDate: string;
+      featured: boolean;
       canEmbed: boolean;
     };
 
-    type Semester = {
-      name: string;
-      startDate: string;
-      endDate: string;
-      projects: Project[];
-    };
+    const projects: ProjectSubmission[] = [];
 
-    // We use a map so multiple projects in the SAME semester get grouped together
-    const semesterMap: Record<string, Semester> = {};
-
-    // LOOP THROUGH EACH PROJECT INDEX FROM 1..addProject
     for (let i = 1; i <= addProject; i++) {
-      const semesterName = getString(`semester-${i}`);
-      const startDateRaw = getString(`startDate-${i}`);
-      const endDateRaw = getString(`endDate-${i}`);
       const projectTitle = getString(`projectName-${i}`);
+      if (!projectTitle) continue;
 
-      // Build a stable project ID from the title
-      const projectId = slugify(projectTitle);
-
-      // shape the project object
-      const project: Project = {
-        id: projectId,
+      projects.push({
         title: projectTitle,
         description: getString(`projectDescription-${i}`),
-        technologies: getCsvArray(`technologiesUsed-${i}`), // all checked tech values
-        featured: false,
+        technologies: getCsvArray(`technologiesUsed-${i}`),
         demoUrl: getString(`demoUrl-${i}`),
         repoUrl: getString(`repositoryUrl-${i}`),
-        screenshot: getString(`screenshotUrl-${i}`),
-        semester: semesterName,
-        completedDate: toIsoDate(endDateRaw), // we use end date as "completed" date
-        canEmbed: false, 
-      };
-
-      // If this semester isn't in the map yet, initialize it
-      if (!semesterMap[semesterName]) {
-        semesterMap[semesterName] = {
-          name: semesterName,
-          startDate: toIsoDate(startDateRaw),
-          endDate: toIsoDate(endDateRaw),
-          projects: [],
-        };
-      }
-
-      // Add this project to the semester’s project list
-      semesterMap[semesterName].projects.push(project);
+        screenshotUrl: getString(`screenshotUrl-${i}`),
+        semester: getString(`semester-${i}`),
+        completedDate: toIsoDate(getString(`endDate-${i}`)),
+        featured: false,
+        canEmbed: true,
+      });
     }
 
-    // Convert semesterMap -> array for final JSON
-    const semesters: Semester[] = Object.values(semesterMap);
-
     // ============================================================
-    // 3) BUILD FINAL PORTFOLIO OBJECT
+    // 3) BUILD SUBMISSION OBJECT FOR API
     // ============================================================
-    const portfolio = {
-      // e.g., "justin-burks"
-      id: generatedId,
-
-      // Split out of fullName
+    const submission = {
       firstName,
       lastName,
-
-      // Top-level contact fields
       email: getString("email"),
-      photo: getString("headshotUrl"),
-
-      // About the student
       bio: getString("bio"),
       personalStatement: getString("personalStatement"),
-      major: getString("major"),
-      graduationYear: Number(getString("graduationYear") || 0),
-
-      // Nested contact object (like in Alan’s JSON)
-      contact: {
-        contactMethods: getCsvArray("contactMethods"),
-      },
-
-      // Skills array (comes from checkbox group named "skills")
       skills: getCsvArray("skills"),
-
-      // Career goals text
       careerGoals: getString("careerGoals"),
-
-      // Semesters array we built above, each with its own projects array
-      semesters,
+      major: getString("major"),
+      graduationYear: Number(getString("graduationYear") || 0) || undefined,
+      website: getString("website"),
+      github: getString("github"),
+      linkedin: getString("linkedin"),
+      twitter: getString("twitter"),
+      photoUrl: getString("headshotUrl"),
+      projects,
     };
 
     // ============================================================
-    // 4) STRINGIFY + TRIGGER DOWNLOAD (IF REQUESTED)
+    // 4) SUBMIT TO BACKEND API
     // ============================================================
+    try {
+      const response = await fetch('/api/submissions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submission),
+      });
 
-    // See exactly what sending / downloading in the console
-    console.log("PORTFOLIO OBJECT:", portfolio);
+      const data = await response.json();
 
-    const jsonData = JSON.stringify(portfolio, null, 2);
-    console.log("JSON STRING:", jsonData);
+      if (!response.ok) {
+        throw new Error(data.error || 'Submission failed');
+      }
 
-    // Hidden input <input type="hidden" name="downloadJson" value="true" />
-    const wantsDownload = !!formData.get("downloadJson");
-
-    if (wantsDownload) {
-      const blob = new Blob([jsonData], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      // File name will be something like "justin-burks.json"
-      a.download = `${portfolio.id || "portfolio_submission"}.json`;
-      a.click();
-
-      URL.revokeObjectURL(url); // Clean up blob URL
+      setSubmitSuccess(true);
+      console.log("Submission successful:", data);
+    } catch (error) {
+      console.error("Submission error:", error);
+      setSubmitError(error instanceof Error ? error.message : 'Submission failed. Please try again.');
+      setSubmit(false); // Allow retry
     }
   };
 
@@ -501,7 +430,12 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
                     onSubmit={handleSubmit}
                     className="space-y-6"
                   >
-                    <input type="hidden" name="downloadJson" value="true" />
+                    {/* Error Message */}
+                    {submitError && (
+                      <div className="mx-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-xl text-center mb-4">
+                        {submitError}
+                      </div>
+                    )}
                     
                     <FormSection
                       title="Basic Information"
@@ -831,10 +765,25 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
                  {/*<LiveDownload mapValue={handleAddProject.requiredIds}  /> */}
               </>
             ) : (
-              <div className="mt-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-2xl text-center">
-                Thank you for your submission! Your portfolio should be ready to
-                download.
-              </div>
+              <m.div
+                className="mt-6 p-8 bg-white rounded-2xl shadow-xl border border-green-200 text-center max-w-lg mx-auto"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Submission Received!</h2>
+                <p className="text-gray-600 mb-4">
+                  Thank you for submitting your portfolio. Our team will review your submission and you will receive an update soon.
+                </p>
+                <p className="text-sm text-gray-500">
+                  Once approved, your profile will be added to the CSI Student Showcase.
+                </p>
+              </m.div>
             )}
           </>
         )}

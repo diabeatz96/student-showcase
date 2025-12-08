@@ -35,3 +35,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI tools
+.claude/
+.cursor/
+.windsurf/
+.aider/
+.continue/
+.codeium/
+.tabnine/
+.copilot/
