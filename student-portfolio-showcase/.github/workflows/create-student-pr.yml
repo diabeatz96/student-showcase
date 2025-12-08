@@ -1,0 +1,114 @@
+name: Create Student PR
+
+on:
+  repository_dispatch:
+    types: [create-student-pr]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Extract submission data
+        id: extract
+        run: |
+          echo "submission_id=${{ github.event.client_payload.submission_id }}" >> $GITHUB_OUTPUT
+          echo "student_name=${{ github.event.client_payload.student_name }}" >> $GITHUB_OUTPUT
+          echo "student_email=${{ github.event.client_payload.student_email }}" >> $GITHUB_OUTPUT
+
+      - name: Create student JSON file
+        run: |
+          # Parse the submission data
+          SUBMISSION_DATA='${{ github.event.client_payload.submission_data }}'
+
+          # Run the script to create the JSON file
+          node scripts/create-student-json.js "$SUBMISSION_DATA"
+
+      - name: Create branch and PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUBMISSION_ID: ${{ steps.extract.outputs.submission_id }}
+          STUDENT_NAME: ${{ steps.extract.outputs.student_name }}
+        run: |
+          # Configure git
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
+          # Create branch name from student name
+          BRANCH_NAME="student/$(echo '${{ steps.extract.outputs.student_name }}' | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-')-$(date +%Y%m%d%H%M%S)"
+
+          # Create and checkout new branch
+          git checkout -b "$BRANCH_NAME"
+
+          # Add all changes
+          git add -A
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          # Commit changes
+          git commit -m "feat: add student profile for ${STUDENT_NAME}
+
+          Submission ID: ${SUBMISSION_ID}
+
+          🤖 Auto-generated from student submission"
+
+          # Push branch
+          git push origin "$BRANCH_NAME"
+
+          # Create PR
+          PR_URL=$(gh pr create \
+            --title "Add student profile: ${STUDENT_NAME}" \
+            --body "## New Student Submission
+
+          **Student:** ${STUDENT_NAME}
+          **Submission ID:** ${SUBMISSION_ID}
+
+          ### Checklist
+          - [ ] Student information is accurate
+          - [ ] Projects have valid URLs
+          - [ ] Screenshots are appropriate
+          - [ ] No sensitive information exposed
+
+          ---
+          🤖 Auto-generated from approved submission" \
+            --base main \
+            --head "$BRANCH_NAME")
+
+          echo "PR created: $PR_URL"
+
+          # Extract PR number and update via webhook (optional)
+          PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+          echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
+          echo "PR_URL=$PR_URL" >> $GITHUB_ENV
+
+      - name: Notify API of PR creation
+        if: success()
+        run: |
+          # Optional: Call back to your API to update submission with PR info
+          curl -X POST "${{ secrets.APP_URL }}/api/webhooks/github" \
+            -H "Content-Type: application/json" \
+            -H "X-GitHub-Event: pr_created" \
+            -H "X-Webhook-Secret: ${{ secrets.WEBHOOK_SECRET }}" \
+            -d "{
+              \"submission_id\": \"${{ steps.extract.outputs.submission_id }}\",
+              \"pr_url\": \"$PR_URL\",
+              \"pr_number\": $PR_NUMBER
+            }" || echo "Webhook notification failed (non-critical)"
