@@ -102,7 +102,6 @@ export default function Page() {
   };
 
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   // Handle what information saves and submits to backend
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -219,7 +218,6 @@ export default function Page() {
         throw new Error(data.error || 'Submission failed');
       }
 
-      setSubmitSuccess(true);
       console.log("Submission successful:", data);
     } catch (error) {
       console.error("Submission error:", error);
